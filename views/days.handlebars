@@ -1,0 +1,12 @@
+<div class="container">
+    {{#each shiftInformation}}
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item {{status}}">
+            <h4 class="">{{weekday}}</h4>
+        </li>
+        {{#each waiters}}
+        <li class="list-group-item">{{this}}</li>
+        {{/each}}
+    </ul>
+    {{/each}}
+</div>
