@@ -8,7 +8,7 @@
                     {{#each days}}
                     <div class="m-4">
                         <label>
-                            <input type="checkbox" name="days" value="{{this.id}}">
+                            <input type="checkbox" name="days" value="{{this.id}}" {{this.state}}>
                             <span>{{this.dayname}}</span>
                         </label>
                     </div>

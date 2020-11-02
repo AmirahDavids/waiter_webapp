@@ -50,11 +50,21 @@ app.get('/waiters/:username', async function (req, res) {
     var days = await factory.getDays();
     var selectedShift = await factory.selectAllShiftsForWaiter(idOfWaiter)
 
+    days.forEach(day => {
+        selectedShift.forEach( element => {
+            if(element.dayid == day.id) {
+                day.state = 'disabled'
+            }
+        })
+    })
 
+    console.log({
+        days
+    });
 
     res.render('waiter', {
-        days: days,
-        waiterName: waiterName
+        days,
+        waiterName
     });
 
 });
@@ -64,7 +74,9 @@ app.post('/waiters/:username', async function (req, res) {
     var waiterName = req.params.username;
     var selectedDays = req.body.days
 
-    await factory.bookShift(waiterName,selectedDays)
+    await factory.deleteShifts(await factory.getWaiterId(waiterName))
+
+    await factory.bookShift(waiterName, selectedDays)
 
     res.render('waiter', {
         days: await factory.getDays()
@@ -73,8 +85,18 @@ app.post('/waiters/:username', async function (req, res) {
 
 app.get('/days', async function (req, res) {
     var shiftInformation = await factory.shiftInformation()
-    res.render('days', {shiftInformation: shiftInformation});
+    res.render('days', {
+        shiftInformation: shiftInformation
+    });
 });
+app.post('/days', async function (req, res) {
+    await factory.resetShifts()
+    var shiftInformation = await factory.shiftInformation()
+    res.render('days', {
+        shiftInformation: shiftInformation
+    });
+});
+
 
 
 let PORT = process.env.PORT || 3008;
