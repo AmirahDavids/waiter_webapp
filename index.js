@@ -51,9 +51,9 @@ app.get('/waiters/:username', async function (req, res) {
     var selectedShift = await factory.selectAllShiftsForWaiter(idOfWaiter)
 
     days.forEach(day => {
-        selectedShift.forEach( element => {
-            if(element.dayid == day.id) {
-                day.state = 'disabled'
+        selectedShift.forEach(element => {
+            if (element.dayid == day.id) {
+                day.state = 'checked'
             }
         })
     })
