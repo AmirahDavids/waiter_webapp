@@ -11,4 +11,4 @@ before_script:
   - psql -U postgres -d waiterdb -a -f reg.sql
 
 services:
-  - postgresql
+  - postgresql;
