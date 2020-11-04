@@ -8,7 +8,7 @@ node_js:
 
 before_script: 
   - psql -c 'create database waiterdb;' -U postgres
-  - psql -U postgres -d waiterdb -a -f reg.sql
+  - psql -U postgres -d waiterdb -a -f waiter.sql
 
 services:
   - postgresql;
