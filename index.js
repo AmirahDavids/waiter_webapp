@@ -5,9 +5,6 @@ var bodyParser = require('body-parser');
 const pg = require("pg");
 const Pool = pg.Pool;
 
-
-console.log("Setting up application");
-
 const connectionString = process.env.DATABASE_URL || 'postgresql://amirah:coder123@localhost:5432/waiterdb';
 const pool = new Pool({
     connectionString
@@ -30,13 +27,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
-
-// Routes...
-
 app.get('/', function (req, res) {
     res.render('index', {});
 });
-
 app.get('/waiters/:username', async function (req, res) {
 
     var waiterName = req.params.username;
@@ -58,17 +51,12 @@ app.get('/waiters/:username', async function (req, res) {
         })
     })
 
-    console.log({
-        days
-    });
-
-    res.render('waiter', {
+        res.render('waiter', {
         days,
         waiterName
     });
 
 });
-
 app.post('/waiters/:username', async function (req, res) {
 
     var waiterName = req.params.username;
@@ -79,10 +67,10 @@ app.post('/waiters/:username', async function (req, res) {
     await factory.bookShift(waiterName, selectedDays)
 
     res.render('waiter', {
-        days: await factory.getDays()
+        days: await factory.getDays(),
+        waiterName
     });
 });
-
 app.get('/days', async function (req, res) {
     var shiftInformation = await factory.shiftInformation()
     res.render('days', {
@@ -96,8 +84,6 @@ app.post('/days', async function (req, res) {
         shiftInformation: shiftInformation
     });
 });
-
-
 
 let PORT = process.env.PORT || 3008;
 
