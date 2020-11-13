@@ -1,53 +1,39 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-                <div class="card-header">Fully Booked</div>
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text">Days that are marked blue are fully booked</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header">Overbooked Shifts</div>
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text">Days marked in grey contains too many waiters working on a day</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
-                <div class="card-header">Needs More Waiters</div>
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text">Days marked as yellow are needing more waiters</p>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row my-3">
-        <div class="mx-auto" style="width: 200px;">
-            <form action="/days" method="post">
-
-                <button type="submit" class="btn btn-dark">Reset Shifts</button>
-            </form>
+        <div class="col-lg-4 legend bg-secondary text-white">
+            <h3>Overbooked</h3>
+        </div> 
+        <div class="col-lg-4 legend bg-primary text-white">
+            <h3>Fully Booked</h3>
         </div>
+        <div class="col-lg-4 legend bg-warning text-white">
+            <h3>Needs Waiters</h3>
+        </div>
+        
     </div>
     <div class="row">
-        <div class="col-lg-6">
-            {{#each shiftInformation}}
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item {{status}}">
-                    <h4 class="">{{weekday}}</h4>
-                </li>
-                {{#each waiters}}
-                <li class="list-group-item">{{this}}</li>
-                {{/each}}
-            </ul>
+    <div class="col-lg-6 mx-auto">
+        {{#each shiftInformation}}
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item {{status}}">
+                <h4 class="">{{weekday}}</h4>
+            </li>
+            {{#each waiters}}
+            <li class="list-group-item">{{this}}</li>
             {{/each}}
-        </div>
+        </ul>
+        {{/each}}
     </div>
 </div>
+
+<div class="row my-5">
+    <div class="mx-auto">
+        <form action="/days" method="post">
+            <button type="submit" class="btn btn-dark">Reset Shifts</button>
+        </form>
+    </div>
+</div>
+</div>
+
+
+

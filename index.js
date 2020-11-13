@@ -9,9 +9,10 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://amirah:coder1
 const pool = new Pool({
     connectionString
 });
-const Factory = require("./waiter");
 
-const factory = Factory(pool);
+
+const Router = require("./waiter-routes");
+const router = Router(pool);
 
 let app = express();
 
@@ -27,63 +28,27 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-    res.render('index', {});
-});
-app.get('/waiters/:username', async function (req, res) {
-
-    var waiterName = req.params.username;
-
-    await factory.addWaiter(waiterName);
-
-    var idOfWaiter = await factory.getWaiterId(waiterName);
 
 
 
-    var days = await factory.getDays();
-    var selectedShift = await factory.selectAllShiftsForWaiter(idOfWaiter)
+app.get('/', router.index);
 
-    days.forEach(day => {
-        selectedShift.forEach(element => {
-            if (element.dayid == day.id) {
-                day.state = 'checked'
-            }
-        })
-    })
+app.get('/waiters', router.redirectWaiter);
 
-        res.render('waiter', {
-        days,
-        waiterName
-    });
+app.get('/waiters/:username', router.waiterPage);
 
-});
-app.post('/waiters/:username', async function (req, res) {
+app.post('/waiters/:username', router.submitShift);
 
-    var waiterName = req.params.username;
-    var selectedDays = req.body.days
+app.get('/days', router.days);
 
-    await factory.deleteShifts(await factory.getWaiterId(waiterName))
+app.post('/days', router.clear);
 
-    await factory.bookShift(waiterName, selectedDays)
 
-    res.render('waiter', {
-        days: await factory.getDays(),
-        waiterName
-    });
-});
-app.get('/days', async function (req, res) {
-    var shiftInformation = await factory.shiftInformation()
-    res.render('days', {
-        shiftInformation: shiftInformation
-    });
-});
-app.post('/days', async function (req, res) {
-    await factory.resetShifts()
-    var shiftInformation = await factory.shiftInformation()
-    res.render('days', {
-        shiftInformation: shiftInformation
-    });
-});
+
+
+
+
+
 
 let PORT = process.env.PORT || 3008;
 
