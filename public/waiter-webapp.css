@@ -7,6 +7,17 @@
     user-select: none;
 }
 
+table,
+th,
+td{
+    border: 1px solid black;
+}
+
+
+ul{
+    list-style: none;
+}
+
 html,
 
 body {

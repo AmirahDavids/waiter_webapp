@@ -75,12 +75,15 @@ module.exports = function Router(pool) {
         res.render('waiter', {
             days,
             waiterName,
-            msg: "shift added"
+            msg: "shift has been added sucessfully",
+            color: "text-success"
         });
     }
    
     async function days(req, res) {
         var shiftInformation = await factory.shiftInformation()
+
+        console.log(shiftInformation);
         res.render('days', {
             shiftInformation: shiftInformation
         });
